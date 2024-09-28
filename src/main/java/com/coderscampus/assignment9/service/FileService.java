@@ -1,13 +1,11 @@
 package com.coderscampus.assignment9.service;
+import com.coderscampus.assignment9.domain.Recipe;
 
-import com.coderscampus.assignment9.Recipe;
 
-
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+import org.springframework.stereotype.Component;
 
 
 import java.io.FileReader;
@@ -16,122 +14,40 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-@Service
+@Component
 public class FileService {
-    private final String fileName;
 
-    @Autowired
-    public FileService(@Value("recipes.txt") String fileName) throws Exception {
-        this.fileName = fileName;
-    }
-
-    public List<Recipe> CSVReader() throws Exception {
+    public static List<Recipe> readRecipes(String filePath) {
         List<Recipe> recipes = new ArrayList<>();
-        try (Reader reader = new FileReader(fileName);
-             CSVReader csvReader = new CSVReaderBuilder(reader)
-                     .withSkipLines(1) // Skip the header row
-                     .build()) {
-            String[] nextLine;
-            while ((nextLine = csvReader.readNext()) != null) {
-                boolean isVegan = true;
-                boolean isGlutenFree = true;
 
-                for (int i = 0; i < nextLine.length; i++) {
-                    String value = nextLine[i].trim().toLowerCase();
-                    if (value.equals("true") || value.equals("false")) {
-                        if (value.equals("true")) {
-                            if (nextLine[i].contains("vegan") && i != 3) {
-                                isVegan = true;
-                            } else if (nextLine[i].contains("gluten") && i != 3) {
-                                isGlutenFree = true;
-                            }
-                        } else if (value.equals("false")) {
-                            if (nextLine[i].contains("vegan") && i != 3) {
-                                isVegan = false;
-                            } else if (nextLine[i].contains("gluten") && i != 3) { 
-                                isGlutenFree = false;
-                            }
-                        }
-                    }
-                }
+        try (Reader reader = new FileReader(filePath);
+             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
+                     .withHeader()
+                     .withIgnoreSurroundingSpaces())) {
 
-                // Parse cooking minutes
-                String cookingMinutes = nextLine[0].trim();
-                int cookingMinutesValue;
-                if (cookingMinutes.matches("\\d+")) {
-                    cookingMinutesValue = Integer.parseInt(cookingMinutes);
-                } else {
-                    cookingMinutesValue = 0; // Default value if not a valid integer
-                }
-
-                // Parse preparation minutes
-                String preparationMinutes = nextLine[4].trim();
-                double preparationMinutesValue;
-                if (preparationMinutes.matches("\\d+(\\.\\d+)?")) {
-                    preparationMinutesValue = Double.parseDouble(preparationMinutes);
-                } else {
-                    preparationMinutesValue = 0.0; // Default value if not a valid double
-                }
-
-                // Parse price per serving
-                String pricePerServing = nextLine[5].trim();
-                double pricePerServingValue;
-                if (pricePerServing.matches("\\d+(\\.\\d+)?")) {
-                    pricePerServingValue = Double.parseDouble(pricePerServing);
-                } else {
-                    pricePerServingValue = 0.0; // Default value if not a valid double
-                }
-
-                // Parse ready in minutes
-                String readyInMinutes = nextLine[6].trim();
-                int readyInMinutesValue;
-                if (readyInMinutes.matches("\\d+")) {
-                    readyInMinutesValue = Integer.parseInt(readyInMinutes);
-                } else {
-                    readyInMinutesValue = 0; // Default value if not a valid integer
-                }
-
-                // Parse servings
-                String servings = nextLine[7].trim();
-                int servingsValue;
-                if (servings.matches("\\d+")) {
-                    servingsValue = Integer.parseInt(servings);
-                } else {
-                    servingsValue = 0; // Default value if not a valid integer
-                }
-
-                // Parse spoonacular score
-                String spoonacularScore = nextLine[8].trim();
-                double spoonacularScoreValue;
-                if (spoonacularScore.matches("\\d+(\\.\\d+)?")) {
-                    spoonacularScoreValue = Double.parseDouble(spoonacularScore);
-                } else {
-                    spoonacularScoreValue = 0.0; // Default value if not a valid double
-                }
-
-                Recipe recipe = new Recipe(
-                        cookingMinutesValue,
-                        isVegan,
-                        isGlutenFree,
-                        nextLine[3],
-                        preparationMinutesValue,
-                        pricePerServingValue,
-                        readyInMinutesValue,
-                        servingsValue,
-                        spoonacularScoreValue,
-                        nextLine[9],
-                        isVegan,
-                        isGlutenFree
-                );
+            for (CSVRecord csvRecord : csvParser) {
+                Recipe recipe = new Recipe();
+                recipe.setCookingMinutes(Integer.parseInt(csvRecord.get("Cooking Minutes")));
+                recipe.setDairyFree(Boolean.parseBoolean(csvRecord.get("Dairy Free")));
+                recipe.setGlutenFree(Boolean.parseBoolean(csvRecord.get("Gluten Free")));
+                recipe.setInstructions(csvRecord.get("Instructions"));
+                recipe.setPreparationMinutes(Double.parseDouble(csvRecord.get("Preparation Minutes")));
+                recipe.setPricePerServing(Double.parseDouble(csvRecord.get("Price Per Serving")));
+                recipe.setReadyInMinutes(Integer.parseInt(csvRecord.get("Ready In Minutes")));
+                recipe.setServings(Integer.parseInt(csvRecord.get("Servings")));
+                recipe.setSpoonacularScore(Double.parseDouble(csvRecord.get("Spoonacular Score")));
+                recipe.setTitle(csvRecord.get("Title"));
+                recipe.setVegan(Boolean.parseBoolean(csvRecord.get("Vegan")));
+                recipe.setVegetarian(Boolean.parseBoolean(csvRecord.get("Vegetarian")));
 
                 recipes.add(recipe);
+                System.out.println(recipe); // Print each recipe
+
             }
         } catch (IOException e) {
-            throw new Exception("Error reading file", e);
+            e.printStackTrace();
         }
         return recipes;
+
     }
 }
