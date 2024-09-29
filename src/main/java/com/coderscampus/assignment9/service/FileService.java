@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
 @Service
 public class FileService {
     private final String fileName;
@@ -28,7 +26,7 @@ public class FileService {
         this.fileName = fileName;
     }
 
-    public List<Recipe> CSVReader() throws Exception {
+    public List<Recipe> csvReader() throws Exception {
         List<Recipe> recipes = new ArrayList<>();
         try (Reader reader = new FileReader(fileName);
              CSVReader csvReader = new CSVReaderBuilder(reader)
@@ -36,27 +34,9 @@ public class FileService {
                      .build()) {
             String[] nextLine;
             while ((nextLine = csvReader.readNext()) != null) {
-                boolean isVegan = true;
-                boolean isGlutenFree = true;
+                Boolean isVegan = true;
+                Boolean isGlutenFree = true;
 
-                for (int i = 0; i < nextLine.length; i++) {
-                    String value = nextLine[i].trim().toLowerCase();
-                    if (value.equals("true") || value.equals("false")) {
-                        if (value.equals("true")) {
-                            if (nextLine[i].contains("vegan") && i != 3) {
-                                isVegan = true;
-                            } else if (nextLine[i].contains("gluten") && i != 3) {
-                                isGlutenFree = true;
-                            }
-                        } else if (value.equals("false")) {
-                            if (nextLine[i].contains("vegan") && i != 3) {
-                                isVegan = false;
-                            } else if (nextLine[i].contains("gluten") && i != 3) { 
-                                isGlutenFree = false;
-                            }
-                        }
-                    }
-                }
 
                 // Parse cooking minutes
                 String cookingMinutes = nextLine[0].trim();

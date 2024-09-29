@@ -16,12 +16,12 @@ public class FileController {
 
     @GetMapping("/all-recipes")
     public List<Recipe> allRecipes() throws Exception {
-        return fileService.CSVReader();
+        return fileService.csvReader();
     }
 
     @GetMapping("/gluten-free")
     public List<Recipe> glutenFreeRecipes() throws Exception {
-        List<Recipe> recipes = fileService.CSVReader();
+        List<Recipe> recipes = fileService.csvReader();
         return recipes.stream()
                 .filter(recipe -> recipe.getGlutenFree())
                 .collect(Collectors.toList());
@@ -29,7 +29,7 @@ public class FileController {
 
     @GetMapping("/vegan")
     public List<Recipe> veganRecipes() throws Exception {
-        List<Recipe> recipes = fileService.CSVReader();
+        List<Recipe> recipes = fileService.csvReader();
         return recipes.stream()
                 .filter(recipe -> recipe.getVegan())
                 .collect(Collectors.toList());
@@ -37,7 +37,7 @@ public class FileController {
 
     @GetMapping("/vegan-and-gluten-free")
     public List<Recipe> veganAndGlutenFreeRecipes() throws Exception {
-        List<Recipe> recipes = fileService.CSVReader();
+        List<Recipe> recipes = fileService.csvReader();
         return recipes.stream()
                 .filter(recipe -> recipe.getVegan() && recipe.getGlutenFree())
                 .collect(Collectors.toList());
@@ -45,7 +45,7 @@ public class FileController {
 
     @GetMapping("/vegetarian")
     public List<Recipe> vegetarianRecipes() throws Exception {
-        List<Recipe> recipes = fileService.CSVReader();
+        List<Recipe> recipes = fileService.csvReader();
         return recipes.stream()
                 .filter(recipe -> recipe.getVegetarian())
                 .collect(Collectors.toList());
