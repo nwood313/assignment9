@@ -18,8 +18,13 @@ public class RecipeService {
 
     private List<Recipe> recipes = new ArrayList<>();
 
+    public void init() throws IOException {
+        readRecipes();
+    }
+
     public void readRecipes() throws IOException {
-        List<String[]> recipesData = fileService.readRecipes("recipes.txt");
+        List<String[]> recipesData = fileService.readRecipes();
+        recipes.clear();
         for (String[] recipeData : recipesData) {
             Recipe recipe = createRecipe(recipeData);
             addRecipe(recipe);
@@ -29,8 +34,8 @@ public class RecipeService {
     private Recipe createRecipe(String[] recipeData) {
         Recipe recipe = new Recipe();
         recipe.setCookingMinutes(Integer.parseInt(recipeData[0]));
-        recipe.setDairyFree(Boolean.parseBoolean(recipeData[1]));
-        recipe.setGlutenFree(Boolean.parseBoolean(recipeData[2]));
+        recipe.setDairyFree(true);
+        recipe.setGlutenFree(true);
         recipe.setInstructions(recipeData[3]);
         recipe.setPreparationMinutes(Double.parseDouble(recipeData[4]));
         recipe.setPricePerServing(Double.parseDouble(recipeData[5]));
@@ -38,8 +43,8 @@ public class RecipeService {
         recipe.setServings(Integer.parseInt(recipeData[7]));
         recipe.setSpoonacularScore(Double.parseDouble(recipeData[8]));
         recipe.setTitle(recipeData[9]);
-        recipe.setVegan(Boolean.parseBoolean(recipeData[10]));
-        recipe.setVegetarian(Boolean.parseBoolean(recipeData[11]));
+        recipe.setVegan(true);
+        recipe.setVegetarian(true);
         return recipe;
     }
 
