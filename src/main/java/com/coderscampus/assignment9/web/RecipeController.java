@@ -19,12 +19,6 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService;
 
-    public void init() {
-        try {
-            recipeService.readRecipes();
-        } catch (IOException e) {
-        }
-    }
 
     @GetMapping("/all-recipes")
     public List<Recipe> getAllRecipes() {
