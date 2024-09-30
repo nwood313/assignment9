@@ -1,6 +1,8 @@
 package com.coderscampus.assignment9.service;
+
 import com.coderscampus.assignment9.domain.Recipe;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @Service
 public class RecipeService {
@@ -18,41 +19,21 @@ public class RecipeService {
 
     private List<Recipe> recipes = new ArrayList<>();
 
-    public void init() throws IOException {
-        readRecipes();
+    @PostConstruct
+    public void init() {
+        try {
+            readRecipes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void readRecipes() throws IOException {
-        List<String[]> recipesData = fileService.readRecipes();
+        List<Recipe> recipesData = fileService.readRecipes();
         recipes.clear();
-        for (String[] recipeData : recipesData) {
-            Recipe recipe = createRecipe(recipeData);
-            addRecipe(recipe);
-        }
+        recipes.addAll(recipesData);
     }
 
-    private Recipe createRecipe(String[] recipeData) {
-        Recipe recipe = new Recipe();
-        recipe.setCookingMinutes(Integer.parseInt(recipeData[0]));
-        recipe.setDairyFree(true);
-        recipe.setGlutenFree(true);
-        recipe.setInstructions(recipeData[3]);
-        recipe.setPreparationMinutes(Double.parseDouble(recipeData[4]));
-        recipe.setPricePerServing(Double.parseDouble(recipeData[5]));
-        recipe.setReadyInMinutes(Integer.parseInt(recipeData[6]));
-        recipe.setServings(Integer.parseInt(recipeData[7]));
-        recipe.setSpoonacularScore(Double.parseDouble(recipeData[8]));
-        recipe.setTitle(recipeData[9]);
-        recipe.setVegan(true);
-        recipe.setVegetarian(true);
-        return recipe;
-    }
-
-    public void addRecipe(Recipe recipe) {
-        if (!recipes.contains(recipe)) {
-            recipes.add(recipe);
-        }
-    }
 
     public List<Recipe> getAllRecipes() {
         return new ArrayList<>(recipes);

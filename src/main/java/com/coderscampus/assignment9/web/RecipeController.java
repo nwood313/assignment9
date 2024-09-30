@@ -19,12 +19,10 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService;
 
-    @PostConstruct
     public void init() {
         try {
             recipeService.readRecipes();
         } catch (IOException e) {
-            // Handle the exception and log an error message
         }
     }
 
@@ -33,7 +31,6 @@ public class RecipeController {
         try {
             return recipeService.getAllRecipes();
         } catch (Exception e) {
-            // Handle the exception and return a user-friendly error message
             return Collections.emptyList();
         }
     }
@@ -43,7 +40,6 @@ public class RecipeController {
         try {
             return recipeService.getGlutenFreeRecipes();
         } catch (Exception e) {
-            // Handle the exception and return a user-friendly error message
             return Collections.emptyList();
         }
     }
@@ -53,7 +49,6 @@ public class RecipeController {
         try {
             return recipeService.getVeganRecipes();
         } catch (Exception e) {
-            // Handle the exception and return a user-friendly error message
             return Collections.emptyList();
         }
     }
@@ -63,7 +58,6 @@ public class RecipeController {
         try {
             return recipeService.getVeganAndGlutenFreeRecipes();
         } catch (Exception e) {
-            // Handle the exception and return a user-friendly error message
             return Collections.emptyList();
         }
     }
@@ -73,7 +67,6 @@ public class RecipeController {
         try {
             return recipeService.getVegetarianRecipes();
         } catch (Exception e) {
-            // Handle the exception and return a user-friendly error message
             return Collections.emptyList();
         }
     }
