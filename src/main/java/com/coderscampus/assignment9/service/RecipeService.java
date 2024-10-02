@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service public class RecipeService {
+@Service
+public class RecipeService {
 
     @Autowired
     private FileService fileService;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
         recipes.clear();
         recipes.addAll(recipesData);
     }
+
 
     public List<Recipe> getAllRecipes() {
         return new ArrayList<>(recipes);

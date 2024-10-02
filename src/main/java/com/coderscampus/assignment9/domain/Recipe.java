@@ -1,7 +1,7 @@
 package com.coderscampus.assignment9.domain;
 
-public class Recipe {
 
+public class Recipe {
     private Integer cookingMinutes;
 
     private Boolean dairyFree;
@@ -26,9 +26,11 @@ public class Recipe {
 
     private Boolean vegetarian;
 
-    public Recipe (){
+
+    public Recipe() {
 
     }
+
 
     public Recipe(Integer cookingMinutes, Boolean dairyFree, Boolean glutenFree,
                   String instructions, Double preparationMinutes, Double pricePerServing,

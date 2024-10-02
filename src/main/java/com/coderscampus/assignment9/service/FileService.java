@@ -16,7 +16,9 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-@Service public class FileService {
+@Service
+public class FileService {
+
     @Value("classpath:recipes.txt")
     private Resource file;
 
