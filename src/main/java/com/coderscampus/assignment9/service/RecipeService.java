@@ -2,7 +2,9 @@ package com.coderscampus.assignment9.service;
 
 import com.coderscampus.assignment9.domain.Recipe;
 
+import com.coderscampus.assignment9.repository.RecipeRepository;
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,51 +16,36 @@ import java.util.stream.Collectors;
 @Service
 public class RecipeService {
 
-    @Autowired
-    private FileService fileService;
+    private final RecipeRepository recipeRepository;
 
-    private List<Recipe> recipes = new ArrayList<>();
-
-    @PostConstruct
-    public void init() {
-        try {
-            readRecipes();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public RecipeService(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
     }
-
-    public void readRecipes() throws IOException {
-        List<Recipe> recipesData = fileService.readRecipes();
-        recipes.clear();
-        recipes.addAll(recipesData);
-    }
-
 
     public List<Recipe> getAllRecipes() {
-        return new ArrayList<>(recipes);
+        return recipeRepository.getAll();
     }
 
     public List<Recipe> getGlutenFreeRecipes() {
-        return recipes.stream()
+        return getAllRecipes().stream()
                 .filter(Recipe::getGlutenFree)
                 .collect(Collectors.toList());
     }
 
     public List<Recipe> getVeganRecipes() {
-        return recipes.stream()
+        return getAllRecipes().stream()
                 .filter(Recipe::getVegan)
                 .collect(Collectors.toList());
     }
 
     public List<Recipe> getVeganAndGlutenFreeRecipes() {
-        return recipes.stream()
+        return getAllRecipes().stream()
                 .filter(r -> r.getVegan() && r.getGlutenFree())
                 .collect(Collectors.toList());
     }
 
     public List<Recipe> getVegetarianRecipes() {
-        return recipes.stream()
+        return getAllRecipes().stream()
                 .filter(Recipe::getVegetarian)
                 .collect(Collectors.toList());
     }

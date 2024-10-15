@@ -3,27 +3,16 @@ package com.coderscampus.assignment9.domain;
 
 public class Recipe {
     private Integer cookingMinutes;
-
     private Boolean dairyFree;
-
     private Boolean glutenFree;
-
     private String instructions;
-
     private Double preparationMinutes;
-
     private Double pricePerServing;
-
     private Integer readyInMinutes;
-
     private Integer servings;
-
     private Double spoonacularScore;
-
     private String title;
-
     private Boolean vegan;
-
     private Boolean vegetarian;
 
 
@@ -31,11 +20,7 @@ public class Recipe {
 
     }
 
-
-    public Recipe(Integer cookingMinutes, Boolean dairyFree, Boolean glutenFree,
-                  String instructions, Double preparationMinutes, Double pricePerServing,
-                  Integer readyInMinutes, Integer servings, Double spoonacularScore, String title,
-                  Boolean vegan, Boolean vegetarian) {
+    public Recipe(Integer cookingMinutes, Boolean dairyFree, Boolean glutenFree, String instructions, Double preparationMinutes, Double pricePerServing, Integer readyInMinutes, Integer servings, Double spoonacularScore, String title, Boolean vegan, Boolean vegetarian) {
         this.cookingMinutes = cookingMinutes;
         this.dairyFree = dairyFree;
         this.glutenFree = glutenFree;
@@ -148,19 +133,6 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "Recipe{" +
-                "cookingMinutes=" + cookingMinutes +
-                ", dairyFree=" + dairyFree +
-                ", glutenFree=" + glutenFree +
-                ", instructions='" + instructions + '\'' +
-                ", preparationMinutes=" + preparationMinutes +
-                ", pricePerServing=" + pricePerServing +
-                ", readyInMinutes=" + readyInMinutes +
-                ", servings=" + servings +
-                ", spoonacularScore=" + spoonacularScore +
-                ", title='" + title + '\'' +
-                ", vegan=" + vegan +
-                ", vegetarian=" + vegetarian +
-                '}';
+        return "Recipe{" + "cookingMinutes=" + cookingMinutes + ", dairyFree=" + dairyFree + ", glutenFree=" + glutenFree + ", instructions='" + instructions + '\'' + ", preparationMinutes=" + preparationMinutes + ", pricePerServing=" + pricePerServing + ", readyInMinutes=" + readyInMinutes + ", servings=" + servings + ", spoonacularScore=" + spoonacularScore + ", title='" + title + '\'' + ", vegan=" + vegan + ", vegetarian=" + vegetarian + '}';
     }
 }
